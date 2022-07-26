@@ -30,6 +30,7 @@ namespace DGJv3
             Modules.Add(new LwlApiKugou());
             Modules.Add(new LwlApiBaidu());
             Modules.Add(new LwlApiXiami());
+            Modules.Add(new LwMultiApi());
 
             // TODO: 加载外置拓展
 

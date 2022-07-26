@@ -94,6 +94,11 @@
     <Compile Include="BlackListType.cs" />
     <Compile Include="BlackListTypeStringConverter.cs" />
     <Compile Include="BuildInfo.cs" />
+    <Compile Include="clsMultiSearch\clsAESEncrypt.cs" />
+    <Compile Include="clsMultiSearch\clsHttpClient.cs" />
+    <Compile Include="clsMultiSearch\clsHttpDownloadFile.cs" />
+    <Compile Include="clsMultiSearch\clsMusic.cs" />
+    <Compile Include="clsMultiSearch\clsMusicOperation.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DanmuHandler.cs" />
     <Compile Include="DGJMain.cs" />
@@ -110,6 +115,7 @@
     <Compile Include="InternalModule\LwlApiNetease.cs" />
     <Compile Include="InternalModule\LwlApiTencent.cs" />
     <Compile Include="InternalModule\LwlApiXiami.cs" />
+    <Compile Include="InternalModule\LwMultiApi.cs" />
     <Compile Include="LoginCenterAPIWarpper.cs" />
     <Compile Include="LyricChangedEvent.cs" />
     <Compile Include="NullSearchModule.cs" />
@@ -168,5 +174,8 @@
   <PropertyGroup>
     <PreBuildEvent>cd $(SolutionDir)
 PowerShell -ExecutionPolicy Bypass -File .\CI\patch_buildinfo.ps1</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) C:\Users\Administrator\Documents\弹幕姬\Plugins</PostBuildEvent>
   </PropertyGroup>
 </Project>

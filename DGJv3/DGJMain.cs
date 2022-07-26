@@ -11,7 +11,7 @@ namespace DGJv3
     {
         private readonly DGJWindow window;
 
-        private VersionChecker versionChecker;
+        //private VersionChecker versionChecker;
 
         public DGJMain()
         {

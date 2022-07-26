@@ -19,8 +19,10 @@ namespace DGJv3
             Singers = songInfo.Singers;
             Lyric = (songInfo.Lyric == null) ? Lrc.NoLyric : Lrc.InitLrc(songInfo.Lyric);
             Note = songInfo.Note;
-
+            Tag = songInfo.Tag;
         }
+
+        public object Tag;
 
         /// <summary>
         /// 搜索模块名称
@@ -75,8 +77,8 @@ namespace DGJv3
         // /// <summary>
         /// 下载地址
         /// </summary>
-        // public string DownloadURL
-        // { get; internal set; }
+        public string DownloadURL
+        { get; internal set; }
 
         /// <summary>
         /// 歌曲文件储存路径

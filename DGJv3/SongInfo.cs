@@ -30,6 +30,8 @@ namespace DGJv3
         [JsonProperty("note")]
         public string Note { get; set; }
 
+        public object Tag;
+
         [JsonConstructor]
         private SongInfo() { }
 
