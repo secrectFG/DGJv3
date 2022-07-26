@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -253,6 +254,13 @@ namespace DGJv3
                 }
             })
             { Name = "ModuleSafeSetting", IsBackground = true }.Start();
+        }
+
+        private static string CleanFileName(string fileName) => Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+
+        public virtual string GetDownloadFilePath(SongItem currentSong)
+        {
+            return Path.Combine(Utilities.SongsCacheDirectoryPath, CleanFileName($"{currentSong.ModuleName}{currentSong.SongName}{currentSong.SongId}{DateTime.Now.ToBinary().ToString("X")}.mp3.点歌姬缓存"));
         }
 
         /*

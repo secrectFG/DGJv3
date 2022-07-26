@@ -22,10 +22,10 @@ namespace DGJv3.InternalModule
             var msc = clsMusicOperation.GetMusicList(keyword).FirstOrDefault();
             if (msc != null)
             {
-                var name = TrimFileString(msc.Name);
+                var name = msc.Name;
                 var songInfo = new SongInfo(
                     this,
-                    ""+ name + TrimFileString(msc.Singer) + msc.Source,
+                    ""+ name + msc.Singer + msc.Source,
                     name,
                     new string[] { msc.Singer }
                 );
@@ -39,20 +39,6 @@ namespace DGJv3.InternalModule
         {
             var msc = songInfo.Tag as clsMusic;
             return msc.DownloadURL;
-        }
-
-        string TrimFileString(string fn)
-        {
-            fn = fn.Replace("?", "_");
-            fn = fn.Replace("\\", "_");
-            fn = fn.Replace("/", "_");
-            fn = fn.Replace("*", "_");
-            fn = fn.Replace(":", "_");
-            fn = fn.Replace(">", "_");
-            fn = fn.Replace("<", "_");
-            fn = fn.Replace("|", "_");
-            fn = fn.Replace("\"", "_");
-            return fn;
         }
     }
 }

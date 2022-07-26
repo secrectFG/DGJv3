@@ -30,6 +30,7 @@ namespace DGJv3.InternalModule
         {
             IsPlaylistSupported = true;
         }
+        
 
         protected override DownloadStatus Download(SongItem item)
         {
