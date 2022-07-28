@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Diagnostics;
 
 namespace UnLockMusic
 {
@@ -76,7 +77,7 @@ namespace UnLockMusic
 
         public string GetHeaders(string key)
         {
-            return m_htpResponse.Headers.GetValues(key).FirstOrDefault<string>();
+            return m_htpResponse.Headers.GetValues(key)?.FirstOrDefault()??"";
             //return m_htpResponse.Headers.GetValues(key).FirstOrDefault<string>();
         }
 
@@ -84,9 +85,16 @@ namespace UnLockMusic
         private string pGetWeb(string url)
         {
             string strResult = "";
-
-            m_htpResponse = m_htpClient.GetAsync(new Uri(url)).Result;
-            strResult = m_htpResponse.Content.ReadAsStringAsync().Result;
+            try
+            {
+                m_htpResponse = m_htpClient.GetAsync(new Uri(url)).Result;
+                strResult = m_htpResponse.Content.ReadAsStringAsync().Result;
+            }
+            catch(Exception e)
+            {
+                Trace.WriteLine("pGetWeb:" + e);
+            }
+           
 
             return strResult;
         }

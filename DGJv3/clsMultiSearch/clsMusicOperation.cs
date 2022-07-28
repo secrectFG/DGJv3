@@ -74,19 +74,19 @@ namespace UnLockMusic
 
             var strs_ = songName.Split(' ');
             var containsSpace = songName.Contains(" ");
-            bool contains(string name)
-            {
-                name = name.ToLower();
-                if (name.Contains(songName)) return true;
-                if (containsSpace && strs_.Length > 1)
-                {
-                    return name.Contains(strs_[0]) && name.Contains(strs_[1]);
-                }
-                return false;
-            }
+            //bool contains(string name)
+            //{
+            //    name = name.ToLower();
+            //    if (name.Contains(songName)) return true;
+            //    if (containsSpace && strs_.Length > 1)
+            //    {
+            //        return name.Contains(strs_[0]) && name.Contains(strs_[1]);
+            //    }
+            //    return false;
+            //}
 
-            //移除歌名不对的歌曲
-            lmsc.RemoveAll(x => (!contains(x.Name)));
+            ////移除歌名不对的歌曲
+            //lmsc.RemoveAll(x => (!contains(x.Name)));
 
 
             lmsc.Sort((a, b) => {

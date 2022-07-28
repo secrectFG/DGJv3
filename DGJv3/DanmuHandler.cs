@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -147,6 +148,7 @@ namespace DGJv3
 
         private void DanmuAddSong(DanmakuModel danmakuModel, string keyword)
         {
+            Trace.WriteLine("DanmuAddSong keyword:" + keyword);
             if (dispatcher.Invoke(callback: () => CanAddSong(username: danmakuModel.UserName)))
             {
                 SongInfo songInfo = null;
@@ -158,8 +160,10 @@ namespace DGJv3
                     if (SearchModules.SecondaryModule != SearchModules.NullModule)
                         songInfo = SearchModules.SecondaryModule.SafeSearch(keyword);
 
-                if (songInfo == null)
+                if (songInfo == null) {
+                    Trace.WriteLine("点歌失败 keyword："+ keyword);
                     return;
+                }
 
                 if (songInfo.IsInBlacklist(Blacklist))
                 {
