@@ -120,7 +120,6 @@ namespace UnLockMusic
             //var rules = new List<Func<,int>>();
 
 
-
             var sn = SongName.ToLower();
             var parts = sn.Split(' ');
             lmsc.Sort((a, b) => {
@@ -165,7 +164,11 @@ namespace UnLockMusic
                 {
                     lmsc.RemoveAt(0);
                 }
-                else break;
+                else
+                {
+                    info.DownloadURL = url;
+                    break;
+                }
             }
 
             return lmsc;
@@ -200,7 +203,7 @@ namespace UnLockMusic
                                            //if (jo["data"]["lists"][i]["pay"].ToString() == "16711935") //该字段为16711935，则为收费，不可下载
                                            //    bolCanDownload = false;
 
-                    clsMusic msc = new clsMusic(i, jo["data"]["list"][i]["name"].ToString(), "", jo["data"]["list"][i]["artist"].ToString(), jo["data"]["list"][i]["album"].ToString(), enmMusicSource.Kw, jo["data"]["list"][i]["musicrid"].ToString(), bolCanDownload);
+                    clsMusic msc = new clsMusic(i, jo["data"]["list"][i]["name"].ToString(), "", jo["data"]["list"][i]["artist"].ToString(), jo["data"]["list"][i]["album"].ToString(), enmMusicSource.酷我, jo["data"]["list"][i]["musicrid"].ToString(), bolCanDownload);
 
                     lmsc.Add(msc);
                 }
@@ -231,7 +234,7 @@ namespace UnLockMusic
                     if (jo["data"]["lists"][i]["trans_param"]["musicpack_advance"].ToString() == "1") //该字段为1，则为收费，不可下载
                         bolCanDownload = false;
 
-                    clsMusic msc = new clsMusic(i, jo["data"]["lists"][i]["SongName"].ToString(), "", jo["data"]["lists"][i]["SingerName"].ToString(), jo["data"]["lists"][i]["AlbumName"].ToString(), enmMusicSource.Kg, jo["data"]["lists"][i]["FileHash"].ToString(), bolCanDownload);
+                    clsMusic msc = new clsMusic(i, jo["data"]["lists"][i]["SongName"].ToString(), "", jo["data"]["lists"][i]["SingerName"].ToString(), jo["data"]["lists"][i]["AlbumName"].ToString(), enmMusicSource.酷狗, jo["data"]["lists"][i]["FileHash"].ToString(), bolCanDownload);
 
                     lmsc.Add(msc);
                 }
@@ -265,7 +268,7 @@ namespace UnLockMusic
                         bolCanDownload = false;
 
                     //副标题 jo["result"]["songs"][i]["alia"].ToString() 多为[]，需要清洗，干脆不要了
-                    clsMusic msc = new clsMusic(i, jo["result"]["songs"][i]["name"].ToString(), "", jo["result"]["songs"][i]["ar"][0]["name"].ToString(), jo["result"]["songs"][i]["al"]["name"].ToString(), enmMusicSource.Wyy, jo["result"]["songs"][i]["id"].ToString(), bolCanDownload);
+                    clsMusic msc = new clsMusic(i, jo["result"]["songs"][i]["name"].ToString(), "", jo["result"]["songs"][i]["ar"][0]["name"].ToString(), jo["result"]["songs"][i]["al"]["name"].ToString(), enmMusicSource.网易云, jo["result"]["songs"][i]["id"].ToString(), bolCanDownload);
 
                     lmsc.Add(msc);
                 }
@@ -334,7 +337,7 @@ namespace UnLockMusic
                         m_strFileFormat = m_strFileFormat.Substring(m_strFileFormat.IndexOf("."));
                     }
                     break;
-                case enmMusicSource.Kg:
+                case enmMusicSource.酷狗:
                     url = m_strGetKgMusicDownloadURL.Replace("<<FileHash>>", date);//.Replace("<<KgMid>>", "c596eb268a2705383a10d0af021664c0");//.Replace("<<KgDFID>>","07u9ob41Vu350chwOw4ejU7b");
                     ResultURL = m_htpClient.GetWeb(url);
 
@@ -348,12 +351,12 @@ namespace UnLockMusic
                         m_strFileFormat = ResultURL.Substring(ResultURL.Length - 4);//可能会出错，如果后缀不是3个字节的话
                     }
                     break;
-                case enmMusicSource.Kw:
+                case enmMusicSource.酷我:
                     ResultURL = m_strGetKwMusicDownloadURL.Replace("<<MUSICID>>", date);
 
                     m_strFileFormat = ".mp3";//旧接口目前只想到mp3格式
                     break;
-                case enmMusicSource.Wyy:
+                case enmMusicSource.网易云:
                     strWyyFirst = m_strWyyMusicGetDownloadURL.Replace("<<ID>>", date);
                     strWyyFirst = aes.AESEncrypt(strWyyFirst, m_strWyyMusicFourth, m_strWyyMusicIV);
                     strWyyFirst = aes.AESEncrypt(strWyyFirst, m_strWyyMusicFourth, m_strWyyMusicIV);//两次AES加密，得到 params 参数

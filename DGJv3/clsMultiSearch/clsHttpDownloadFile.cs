@@ -102,7 +102,7 @@ namespace UnLockMusic
 
             try
             {
-                HttpWebRequest myRequest = (HttpWebRequest)HttpWebRequest.Create(url);// 打开网络连接
+                HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(url);// 打开网络连接
 
                 if (startPosition > 0)
                 {

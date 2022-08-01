@@ -35,6 +35,7 @@ namespace DGJv3
             }
             catch (Exception) { }
             window = new DGJWindow(this);
+            window.Show();
             //versionChecker = new VersionChecker("DGJv3");
             //Task.Run(() =>
             //{

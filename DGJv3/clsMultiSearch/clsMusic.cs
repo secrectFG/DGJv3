@@ -13,9 +13,9 @@ namespace UnLockMusic
     {
         Nothing,
         QQ,
-        Kg,
-        Kw,
-        Wyy
+        酷狗,
+        酷我,
+        网易云
     }
     /// <summary>
     /// 音乐信息
@@ -56,9 +56,9 @@ namespace UnLockMusic
             switch (emsSource)
             {
                 case enmMusicSource.QQ:
-                case enmMusicSource.Kg:
-                case enmMusicSource.Kw:
-                case enmMusicSource.Wyy:
+                case enmMusicSource.酷狗:
+                case enmMusicSource.酷我:
+                case enmMusicSource.网易云:
                     mscDownloadInfo = strOtherInfo;
                     mscDownloadURL = "";
                     break;

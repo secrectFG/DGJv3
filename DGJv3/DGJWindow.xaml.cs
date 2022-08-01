@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,6 +54,7 @@ namespace DGJv3
 
         public void Log(string text)
         {
+            Trace.WriteLine(text);
             PluginMain.Log(text);
 
             if (IsLogRedirectDanmaku)
@@ -119,11 +121,16 @@ namespace DGJv3
             DanmuHandler = new DanmuHandler(Songs, Player, Downloader, SearchModules, Blacklist);
             Writer = new Writer(Songs, Playlist, Player, DanmuHandler);
 
-            Player.LogEvent += (sender, e) => { Log("播放:" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
-            Downloader.LogEvent += (sender, e) => { Log("下载:" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
-            Writer.LogEvent += (sender, e) => { Log("文本:" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
-            SearchModules.LogEvent += (sender, e) => { Log("搜索:" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
-            DanmuHandler.LogEvent += (sender, e) => { Log("" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
+            Player.LogEvent += (sender, e) => {
+                Log("播放:" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
+            Downloader.LogEvent += (sender, e) => {
+                Log("下载:" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
+            Writer.LogEvent += (sender, e) => {
+                Log("文本:" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
+            SearchModules.LogEvent += (sender, e) => {
+                Log("搜索:" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
+            DanmuHandler.LogEvent += (sender, e) => {
+                Log("" + e.Message + (e.Exception == null ? string.Empty : e.Exception.Message)); };
 
             RemoveSongCommmand = new UniversalCommand((songobj) =>
             {
@@ -299,6 +306,7 @@ namespace DGJv3
 
                 if (songInfo == null)
                 {
+                    Log($"点歌失败 keyword：{keyword}");
                     return;
                 }
 

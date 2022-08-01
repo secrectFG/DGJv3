@@ -291,12 +291,24 @@ namespace DGJv3
         /// <param name="songItem"></param>
         private void LoadSong(SongItem songItem)
         {
+
             currentSong = songItem;
 
             currentSong.Status = SongStatus.Playing;
 
             wavePlayer = CreateIWavePlayer();
-            mp3FileReader = new Mp3FileReader(currentSong.FilePath);
+
+            try
+            {
+                mp3FileReader = new Mp3FileReader(currentSong.FilePath);
+            }
+            catch(Exception e)
+            {
+                Log("加载歌曲出错",e);
+                UnloadSong();
+                return;
+            }
+            
             sampleChannel = new SampleChannel(mp3FileReader)
             {
                 Volume = Volume

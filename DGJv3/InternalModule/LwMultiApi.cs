@@ -46,7 +46,7 @@ namespace DGJv3.InternalModule
         public override string GetDownloadFilePath(SongItem currentSong)
         {
             var msc = currentSong.Tag as clsMusic;
-            return Path.Combine(Utilities.SongsCacheDirectoryPath, CleanFileName($"{currentSong.ModuleName}-{currentSong.SongName}-{currentSong.SongId}-{msc.Source}.mp3"));
+            return Path.Combine(Utilities.SongsCacheDirectoryPath, CleanFileName($"{currentSong.ModuleName}-{msc.Name}-{msc.Singer}-{msc.Class}-{msc.Source}.mp3"));
         }
 
         protected override DownloadStatus Download(SongItem item)
@@ -56,15 +56,44 @@ namespace DGJv3.InternalModule
                 item.CacheForever = true;
 
                 var path = GetDownloadFilePath(item);
+                FileInfo fi;
                 Log($"下载保存位置:{path}");
                 if (File.Exists(path))
                 {
-                    return DownloadStatus.Success;
+                    fi = new FileInfo(path);
+                    if(fi.Length > 1024*1024)
+                    {
+                        return DownloadStatus.Success;
+                    }
+                    else
+                    {
+                        fi.Delete();
+                    }
+                    
                 }
                 var dlurl = GetDownloadUrl(item);
+                
+                if (string.IsNullOrEmpty(dlurl))
+                {
+                    Log($"下载地址为空");
+                    return DownloadStatus.Failed;
+                }
                 Log($"下载地址:{dlurl}");
-
-                clsHttpDownloadFile.Download(dlurl, path);
+                if (!clsHttpDownloadFile.Download(dlurl, path))
+                {
+                    File.Delete(path);
+                    return DownloadStatus.Failed;
+                }
+                fi = new FileInfo(path);
+                if (fi.Length > 1024 * 1024)
+                {
+                    return DownloadStatus.Success;
+                }
+                else
+                {
+                    fi.Delete();
+                    return DownloadStatus.Failed;
+                }
             }
             catch(Exception e)
             {
