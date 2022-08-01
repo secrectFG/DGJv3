@@ -43,7 +43,7 @@ namespace DGJv3
         /// <summary>
         /// 是否负责下载
         /// </summary>
-        public bool IsHandleDownlaod
+        public bool IsHandleDownload
         { get; protected set; }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace DGJv3
             { Name = "ModuleSafeSetting", IsBackground = true }.Start();
         }
 
-        private static string CleanFileName(string fileName) => Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+        public static string CleanFileName(string fileName) => Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
 
         public virtual string GetDownloadFilePath(SongItem currentSong)
         {

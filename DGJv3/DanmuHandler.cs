@@ -148,7 +148,7 @@ namespace DGJv3
 
         private void DanmuAddSong(DanmakuModel danmakuModel, string keyword)
         {
-            Trace.WriteLine("DanmuAddSong keyword:" + keyword);
+            Log($"收到点歌命令 keyword：{keyword}");
             if (dispatcher.Invoke(callback: () => CanAddSong(username: danmakuModel.UserName)))
             {
                 SongInfo songInfo = null;
@@ -161,7 +161,7 @@ namespace DGJv3
                         songInfo = SearchModules.SecondaryModule.SafeSearch(keyword);
 
                 if (songInfo == null) {
-                    Trace.WriteLine("点歌失败 keyword："+ keyword);
+                    Log($"点歌失败 keyword：{keyword}");
                     return;
                 }
 

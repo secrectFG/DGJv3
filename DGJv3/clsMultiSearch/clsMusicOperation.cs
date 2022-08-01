@@ -161,7 +161,7 @@ namespace UnLockMusic
                 var info = lmsc.First();
                 var DownloadInfo = info.DownloadInfo;
                 var url = GetMusicDownloadURL(DownloadInfo, info.Source);
-                if (string.IsNullOrEmpty(url))
+                if (string.IsNullOrEmpty(url) || m_strFileFormat != ".mp3")
                 {
                     lmsc.RemoveAt(0);
                 }

@@ -20,7 +20,9 @@ namespace DGJv3
                     break;
                 case SongStatus.WaitingPlay:
                     songList.Remove(songItem);
-                    try { File.Delete(songItem.FilePath); } catch (Exception) { }
+                    try {
+                        if(!songItem.CacheForever)
+                        File.Delete(songItem.FilePath); } catch (Exception) { }
                     break;
                 case SongStatus.Playing:
                     player.Next();

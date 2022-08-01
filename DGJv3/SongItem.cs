@@ -12,7 +12,7 @@ namespace DGJv3
             Status = SongStatus.WaitingDownload;
 
             UserName = userName;
-
+            SongInfo = songInfo;
             Module = songInfo.Module;
             SongId = songInfo.Id;
             SongName = songInfo.Name;
@@ -21,6 +21,8 @@ namespace DGJv3
             Note = songInfo.Note;
             Tag = songInfo.Tag;
         }
+
+        public SongInfo SongInfo { get; private set; }
 
         public object Tag;
 
@@ -105,6 +107,8 @@ namespace DGJv3
         { get => _status; internal set => SetField(ref _status, value); }
 
         private SongStatus _status;
+
+        public bool CacheForever { get; set; } = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")

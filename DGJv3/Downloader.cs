@@ -111,7 +111,7 @@ namespace DGJv3
             // currentSong = songItem;
 
             currentSong.Status = SongStatus.Downloading;
-            if (currentSong.Module.IsHandleDownlaod)
+            if (currentSong.Module.IsHandleDownload)
             {
                 IsModuleDownloading = true;
                 new System.Threading.Thread(() =>
@@ -182,7 +182,9 @@ namespace DGJv3
             {
                 success = false;
                 try
-                { File.Delete(currentSong.FilePath); }
+                {
+                    if(!currentSong.CacheForever)
+                    File.Delete(currentSong.FilePath); }
                 catch (Exception) { }
             }
             else if (e.Error != null)

@@ -16,7 +16,7 @@ namespace UnLockMusic
         /// <param name="document">文件夹</param>
         /// <param name="localfile">文件名</param>
         /// <returns></returns>
-        public bool DownloadEx(string url, string document, string localfile)
+        public static bool DownloadEx(string url, string document, string localfile)
         {
             bool flag = false;
             long startPosition = 0; // 上次下载的文件起始位置
@@ -81,7 +81,7 @@ namespace UnLockMusic
         /// <param name="url">http地址</param>
         /// <param name="localfile">文件名</param>
         /// <returns></returns>
-        public bool Download(string url, string localfile)
+        public static bool Download(string url, string localfile)
         {
             bool flag = false;
             long startPosition = 0; // 上次下载的文件起始位置

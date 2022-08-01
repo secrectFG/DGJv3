@@ -335,7 +335,8 @@ namespace DGJv3
 
             try
             {
-                File.Delete(currentSong.FilePath);
+                if(!currentSong.CacheForever)
+                    File.Delete(currentSong.FilePath);
             }
             catch (Exception)
             {
