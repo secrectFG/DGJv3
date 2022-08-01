@@ -60,6 +60,9 @@ namespace DGJv3
             "{{ 歌曲.歌名 }} - {{  歌曲.点歌人 }} - {{ 歌曲.歌手 }} - {{ 歌曲.搜索模块 }}\n" +
             "{{~ end ~}}";
 
+
+        public bool onLoadShow { get; set; } = true;
+
         public Config()
         {
         }

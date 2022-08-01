@@ -52,6 +52,8 @@ namespace DGJv3
 
         public int LogDanmakuLengthLimit { get; set; }
 
+        public Config Config { get;private set; }
+
         public void Log(string text)
         {
             Trace.WriteLine(text);
@@ -176,8 +178,8 @@ namespace DGJv3
             });
 
             InitializeComponent();
-
-            ApplyConfig(Config.Load());
+            Config = Config.Load();
+            ApplyConfig(Config);
 
             PluginMain.ReceivedDanmaku += (sender, e) => { DanmuHandler.ProcessDanmu(e.Danmaku); };
             PluginMain.Connected += (sender, e) => { LwlApiBaseModule.RoomId = e.roomid; };
@@ -203,6 +205,7 @@ namespace DGJv3
             Writer.ScribanTemplate = config.ScribanTemplate;
             IsLogRedirectDanmaku = config.IsLogRedirectDanmaku;
             LogDanmakuLengthLimit = config.LogDanmakuLengthLimit;
+            loadShowCheckBox.IsChecked = config.onLoadShow;
 
             LogRedirectToggleButton.IsEnabled = LoginCenterAPIWarpper.CheckLoginCenter();
             if (LogRedirectToggleButton.IsEnabled && IsLogRedirectDanmaku)
@@ -239,24 +242,43 @@ namespace DGJv3
         /// 收集设置
         /// </summary>
         /// <returns></returns>
-        private Config GatherConfig() => new Config()
+        //private Config GatherConfig() => new Config()
+        //{
+        //    PlayerType = Player.PlayerType,
+        //    DirectSoundDevice = Player.DirectSoundDevice,
+        //    WaveoutEventDevice = Player.WaveoutEventDevice,
+        //    IsUserPrior = Player.IsUserPrior,
+        //    Volume = Player.Volume,
+        //    IsPlaylistEnabled = Player.IsPlaylistEnabled,
+        //    PrimaryModuleId = SearchModules.PrimaryModule.UniqueId,
+        //    SecondaryModuleId = SearchModules.SecondaryModule.UniqueId,
+        //    MaxPersonSongNum = DanmuHandler.MaxPersonSongNum,
+        //    MaxTotalSongNum = DanmuHandler.MaxTotalSongNum,
+        //    ScribanTemplate = Writer.ScribanTemplate,
+        //    Playlist = Playlist.ToArray(),
+        //    Blacklist = Blacklist.ToArray(),
+        //    IsLogRedirectDanmaku = IsLogRedirectDanmaku,
+        //    LogDanmakuLengthLimit = LogDanmakuLengthLimit,
+        //};
+        private Config GatherConfig()
         {
-            PlayerType = Player.PlayerType,
-            DirectSoundDevice = Player.DirectSoundDevice,
-            WaveoutEventDevice = Player.WaveoutEventDevice,
-            IsUserPrior = Player.IsUserPrior,
-            Volume = Player.Volume,
-            IsPlaylistEnabled = Player.IsPlaylistEnabled,
-            PrimaryModuleId = SearchModules.PrimaryModule.UniqueId,
-            SecondaryModuleId = SearchModules.SecondaryModule.UniqueId,
-            MaxPersonSongNum = DanmuHandler.MaxPersonSongNum,
-            MaxTotalSongNum = DanmuHandler.MaxTotalSongNum,
-            ScribanTemplate = Writer.ScribanTemplate,
-            Playlist = Playlist.ToArray(),
-            Blacklist = Blacklist.ToArray(),
-            IsLogRedirectDanmaku = IsLogRedirectDanmaku,
-            LogDanmakuLengthLimit = LogDanmakuLengthLimit,
-        };
+            Config.PlayerType = Player.PlayerType;
+            Config.DirectSoundDevice = Player.DirectSoundDevice;
+            Config.WaveoutEventDevice = Player.WaveoutEventDevice;
+            Config.IsUserPrior = Player.IsUserPrior;
+            Config.Volume = Player.Volume;
+            Config.IsPlaylistEnabled = Player.IsPlaylistEnabled;
+            Config.PrimaryModuleId = SearchModules.PrimaryModule.UniqueId;
+            Config.SecondaryModuleId = SearchModules.SecondaryModule.UniqueId;
+            Config.MaxPersonSongNum = DanmuHandler.MaxPersonSongNum;
+            Config.MaxTotalSongNum = DanmuHandler.MaxTotalSongNum;
+            Config.ScribanTemplate = Writer.ScribanTemplate;
+            Config.Playlist = Playlist.ToArray();
+            Config.Blacklist = Blacklist.ToArray();
+            Config.IsLogRedirectDanmaku = IsLogRedirectDanmaku;
+            Config.LogDanmakuLengthLimit = LogDanmakuLengthLimit;
+            return Config;
+        }
 
         /// <summary>
         /// 弹幕姬退出事件
@@ -269,7 +291,8 @@ namespace DGJv3
             Player.Next();
             try
             {
-                Directory.Delete(Utilities.SongsCacheDirectoryPath, true);
+                //TO DO 最好做个智能大小或者根据日期删除缓存
+                //Directory.Delete(Utilities.SongsCacheDirectoryPath, true);
             }
             catch (Exception)
             {
@@ -430,6 +453,11 @@ namespace DGJv3
             {
                 LogRedirectToggleButton.IsChecked = false;
             }
+        }
+
+        private void loadShowCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            Config.onLoadShow = loadShowCheckBox.IsChecked ?? false;
         }
     }
 }

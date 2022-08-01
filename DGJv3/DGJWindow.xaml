@@ -417,6 +417,7 @@
                         <materialDesign:PopupBox.ToggleContent>
                             <materialDesign:PackIcon Width="24" Height="24" Kind="FileDocument"/>
                         </materialDesign:PopupBox.ToggleContent>
+
                         <Grid Margin="8" Width="800" Height="400">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -439,6 +440,8 @@
                                      TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="False"/>
                         </Grid>
                     </materialDesign:PopupBox>
+                    <Frame Width="20"/>
+                    <CheckBox Content="点歌姬窗口启动显示" Name="loadShowCheckBox" Click="loadShowCheckBox_Click"/>
                     <!-- 文本输出结束 -->
                 </StackPanel>
 
