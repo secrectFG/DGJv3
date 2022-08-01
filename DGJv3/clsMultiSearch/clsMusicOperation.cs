@@ -96,7 +96,9 @@ namespace UnLockMusic
 
 
             List<clsMusic> lmsc = new List<clsMusic>();
-            var list = Parallel(() => GetKWMusicList(SongName), () => GetKGMusicList(SongName), () => GetWYYMusicList(SongName), () => GetQQMusicList(SongName));
+            var list = Parallel(() => GetKWMusicList(SongName), () => GetKGMusicList(SongName),
+                //() => GetWYYMusicList(SongName),//不用网易云了，这里交给网易云喵块
+                () => GetQQMusicList(SongName));
             foreach (var value in list)
             {
                 lmsc.AddRange(value);

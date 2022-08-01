@@ -35,8 +35,7 @@ namespace DGJv3
             }
             catch (Exception) { }
             window = new DGJWindow(this);
-            if(window.Config.onLoadShow)
-                window.Show();
+            
             //versionChecker = new VersionChecker("DGJv3");
             //Task.Run(() =>
             //{
@@ -58,6 +57,14 @@ namespace DGJv3
             //    }
             //});
             Start();
+            delayShow();
+        }
+
+        async void delayShow()
+        {
+            await Task.Delay(1000);
+            if (window.Config.onLoadShow)
+                window.Show();
         }
 
         public override void Admin()

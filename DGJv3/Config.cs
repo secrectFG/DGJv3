@@ -61,7 +61,7 @@ namespace DGJv3
             "{{~ end ~}}";
 
 
-        public bool onLoadShow { get; set; } = true;
+        public bool onLoadShow { get; set; } = false;
 
         public Config()
         {

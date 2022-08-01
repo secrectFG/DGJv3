@@ -190,8 +190,9 @@ namespace DGJv3
         /// 应用设置
         /// </summary>
         /// <param name="config"></param>
-        private void ApplyConfig(Config config)
+        private async void ApplyConfig(Config config)
         {
+            await Task.Delay(1000);//等待一下等第三方模块注入完毕加载完毕
             Player.PlayerType = config.PlayerType;
             Player.DirectSoundDevice = config.DirectSoundDevice;
             Player.WaveoutEventDevice = config.WaveoutEventDevice;
@@ -210,7 +211,7 @@ namespace DGJv3
             LogRedirectToggleButton.IsEnabled = LoginCenterAPIWarpper.CheckLoginCenter();
             if (LogRedirectToggleButton.IsEnabled && IsLogRedirectDanmaku)
             {
-                Task.Run(async () =>
+                _ = Task.Run(async () =>
                 {
                     await Task.Delay(2000); // 其实不应该这么写的，不太合理
                     IsLogRedirectDanmaku = await LoginCenterAPIWarpper.DoAuth(PluginMain);
