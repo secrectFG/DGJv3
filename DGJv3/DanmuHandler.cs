@@ -148,6 +148,7 @@ namespace DGJv3
 
         private void DanmuAddSong(DanmakuModel danmakuModel, string keyword)
         {
+            //gRpcHelper.ClientHelper.SendJsonMsg("正在点歌",keyword);
             Log($"收到点歌命令 keyword：{keyword}");
             if (dispatcher.Invoke(callback: () => CanAddSong(username: danmakuModel.UserName)))
             {
@@ -162,15 +163,18 @@ namespace DGJv3
 
                 if (songInfo == null) {
                     Log($"点歌失败 keyword：{keyword}");
+                    //gRpcHelper.ClientHelper.SendJsonMsg("点歌失败", keyword);
                     return;
                 }
 
                 if (songInfo.IsInBlacklist(Blacklist))
                 {
                     Log($"歌曲{songInfo.Name}在黑名单中");
+                    //gRpcHelper.ClientHelper.SendJsonMsg("歌曲在黑名单中", keyword);
                     return;
                 }
                 Log($"点歌成功:{songInfo.Name}");
+                //gRpcHelper.ClientHelper.SendJsonMsg("点歌成功", keyword);
                 dispatcher.Invoke(callback: () =>
                 {
                     if (CanAddSong(danmakuModel.UserName) &&

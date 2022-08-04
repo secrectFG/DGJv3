@@ -21,7 +21,7 @@ namespace DGJv3
                 info.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
             }
             catch (Exception) { }
-            AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
+            //AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
 
             PluginName = "点歌姬";
             PluginVer = BuildInfo.Version;
@@ -88,7 +88,12 @@ namespace DGJv3
 
             using (Stream stream = executingAssembly.GetManifestResourceStream(path))
             {
-                if (stream == null) { return null; }
+                if (stream == null) {
+                    if (File.Exists(filepath))
+                    {
+                        return Assembly.LoadFrom(filepath);
+                    }
+                    return null; }
 
                 var assemblyRawBytes = new byte[stream.Length];
                 stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
