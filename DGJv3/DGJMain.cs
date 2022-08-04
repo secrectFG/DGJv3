@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -12,9 +13,11 @@ namespace DGJv3
         private readonly DGJWindow window;
 
         //private VersionChecker versionChecker;
-
+        public static DanmuSender.DanmuRPCSender danmuRPCSender = null;
         public DGJMain()
         {
+            
+            CosturaUtility.Initialize();
             try
             {
                 var info = Directory.CreateDirectory(Utilities.BinDirectoryPath);
@@ -57,14 +60,20 @@ namespace DGJv3
             //    }
             //});
             Start();
-            delayShow();
+            delayDosomthing();
         }
 
-        async void delayShow()
+        async void delayDosomthing()
         {
             await Task.Delay(1000);
             if (window.Config.onLoadShow)
                 window.Show();
+
+            var sender = Bililive_dm.App.Plugins.FirstOrDefault(p => p is DanmuSender.DanmuRPCSender);
+            if (sender != null)
+            {
+                danmuRPCSender = (DanmuSender.DanmuRPCSender)sender;
+            }
         }
 
         public override void Admin()
