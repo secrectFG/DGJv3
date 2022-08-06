@@ -17,7 +17,7 @@ namespace DGJv3
         public DGJMain()
         {
             
-            CosturaUtility.Initialize();
+            //CosturaUtility.Initialize();
             try
             {
                 var info = Directory.CreateDirectory(Utilities.BinDirectoryPath);

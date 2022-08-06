@@ -322,6 +322,8 @@ namespace DGJv3
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Status)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalTime)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentTime)));
+
+            DGJMain.danmuRPCSender?.Send("正在播放", $"歌名[{songItem.SongName}] 歌手[{songItem.Singers.FirstOrDefault()}]");
         }
 
         /// <summary>
