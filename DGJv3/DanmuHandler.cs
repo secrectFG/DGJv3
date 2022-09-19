@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace DGJv3
@@ -141,43 +142,63 @@ namespace DGJv3
                         // TODO: 投票切歌
                     }
                     return;
+                case "切歌":
+                    dispatcher.Invoke(() =>
+                    {
+                        if (Songs.Count > 0)
+                        {
+                            SongItem songItem = Songs.First();
+                            if (songItem.UserName == danmakuModel.UserName)
+                            {
+                                songItem.Remove(Songs, Downloader, Player);
+                                Log($"用户 {danmakuModel.UserName} 切歌成功！");
+                                DGJMain.danmuRPCSender?.Send("用户切歌", $"已跳过[{songItem.SongName}]");
+                            }
+                           
+                        }
+                    });
+                    break;
                 default:
                     break;
             }
         }
 
         
-        private void DanmuAddSong(DanmakuModel danmakuModel, string keyword)
+        private async void DanmuAddSong(DanmakuModel danmakuModel, string keyword)
         {
             
-            DGJMain.danmuRPCSender?.Send("正在点歌",keyword);
+            DGJMain.danmuRPCSender?.Send("正在点歌", $"关键字[{keyword}]");
 
             Log($"收到点歌命令 keyword：{keyword}");
             if (dispatcher.Invoke(callback: () => CanAddSong(username: danmakuModel.UserName)))
             {
                 SongInfo songInfo = null;
 
-                if (SearchModules.PrimaryModule != SearchModules.NullModule)
-                    songInfo = SearchModules.PrimaryModule.SafeSearch(keyword);
+                await Task.Run(() => {
+                    if (SearchModules.PrimaryModule != SearchModules.NullModule)
+                        songInfo = SearchModules.PrimaryModule.SafeSearch(keyword);
 
-                if (songInfo == null)
-                    if (SearchModules.SecondaryModule != SearchModules.NullModule)
-                        songInfo = SearchModules.SecondaryModule.SafeSearch(keyword);
+                    if (songInfo == null)
+                        if (SearchModules.SecondaryModule != SearchModules.NullModule)
+                            songInfo = SearchModules.SecondaryModule.SafeSearch(keyword);
+                });
+
+                
 
                 if (songInfo == null) {
                     Log($"点歌失败 keyword：{keyword}");
-                    DGJMain.danmuRPCSender?.Send("点歌失败", keyword);
+                    DGJMain.danmuRPCSender?.Send("点歌失败", $"关键字[{keyword}]");
                     return;
                 }
 
-                if (songInfo.IsInBlacklist(Blacklist))
+                if (dispatcher.Invoke(()=>songInfo.IsInBlacklist(Blacklist)))
                 {
                     Log($"歌曲{songInfo.Name}在黑名单中");
-                    DGJMain.danmuRPCSender?.Send("歌曲在黑名单中", keyword);
+                    DGJMain.danmuRPCSender?.Send("歌曲在黑名单中", $"关键字[{keyword}]");
                     return;
                 }
                 Log($"点歌成功:{songInfo.Name}");
-                DGJMain.danmuRPCSender?.Send("点歌成功", keyword);
+                DGJMain.danmuRPCSender?.Send("点歌成功", $"关键字[{keyword}] 歌名[{songInfo.Name}] 歌手[{songInfo.Singers.FirstOrDefault()}]");
                 dispatcher.Invoke(callback: () =>
                 {
                     if (CanAddSong(danmakuModel.UserName) &&

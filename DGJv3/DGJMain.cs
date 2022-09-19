@@ -60,10 +60,10 @@ namespace DGJv3
             //    }
             //});
             Start();
-            delayDosomthing();
+            delayDosomething();
         }
 
-        async void delayDosomthing()
+        async void delayDosomething()
         {
             await Task.Delay(1000);
             if (window.Config.onLoadShow)

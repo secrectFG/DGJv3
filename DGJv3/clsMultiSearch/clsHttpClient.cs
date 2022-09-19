@@ -77,7 +77,15 @@ namespace UnLockMusic
 
         public string GetHeaders(string key)
         {
-            return m_htpResponse.Headers.GetValues(key)?.FirstOrDefault()??"";
+            try
+            {
+                return m_htpResponse.Headers.GetValues(key)?.FirstOrDefault() ?? "";
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("GetHeaders Error:"+e);
+            }
+            return "";
             //return m_htpResponse.Headers.GetValues(key).FirstOrDefault<string>();
         }
 
